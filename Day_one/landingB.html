@@ -3,48 +3,63 @@
 <head>
   <title>Landing Page</title>
   <meta charset="UTF-8">
-  <meta name="description" content="Landing Page">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="landingB2.css">
+  <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
 </head>
 <body>
-  <h1>Hi, I'm Maya Hillegonds</h1>
-  <img src="img/IMG_6493_EDIT.jpg" alt="Me">
   
-  <p>You can find me at himayaa on 
-  <a href="https://github.com/himayaa" target="_blank"> GitHub.</a> 
+    <div class="container">
+      <div class="text-center bg-success text-white px-5">
+        <h1 class="pt-3">Hi, I'm Maya Hillegonds</h1>
+        <img src="IMG_6493_EDIT-copy.jpg" style="width: 50%; height: 50%;" class="img-fluid" alt="Me">
+      </div>
+      <div class="p-3 mb-2 bg-light text-dark">
+        <p>You can find me at himayaa on 
+          <a href="https://github.com/himayaa" target="_blank"> GitHub.</a> 
+          It's just parts of my first and last names combined, but I   like that my username says hi to me.</p>
 
-It's just parts of my first and last names combined, but I   like that my username says hi to me.</p>
-  
-  <p>I attend the University of Michigan and I am studying computer science. I love to read, play piano, and go on walks. If you're curious about what I'm reading, here is my 
-  <a href="https://www.goodreads.com/user/show/157439893-maya" target="_blank">goodreads.</a>
-  </p>
+          <p>I attend the University of Michigan and I am studying computer science. I love to read, play piano, and go on walks. If you're curious about what I'm reading, here is my 
+          <a href="https://www.goodreads.com/user/show/157439893-maya" target="_blank">goodreads.</a>
+          </p>
 
-  
-  
-  <p class="left-align">Some facts about me:</p>
+          <p class="left-align">Some facts about me:</p>
 
-  <ul class="left-list">
-    <li>Watch many YouTube and podcast debates</li>
-    <li>Can ride my bike with no handlebars</li>
-    <li>Scared of sharks</li>
-  </ul>
+          <ul class="left-list">
+            <li>Watch many YouTube and podcast debates</li>
+            <li>Can ride my bike with no handlebars</li>
+            <li>Scared of sharks</li>
+          </ul>
 
-  <p> I am excited to work with you soon! </p>
+          <p> I am excited to work with you soon! </p>
+          
+          <form>
+            <input type="text" placeholder="Empty box">
+            <br>
+            <input type="checkbox" id="subscribe" name="subscribe" value="subscribe">
+            <label for="subscribe">Clicking this does nothing</label>
+            <br>
+            <input type="radio" id="option1" name="options" value="option1">
+            <label for="option1">Neither</label>
+            <br>
+            <input type="radio" id="option2" name="options" value="option2">
+            <label for="option2">Neither</label>
+            <br>
+            <input type="submit" value="Submit">
+          </form>
+
+      </div>
+    </div>
   
-  <form>
-    <input type="text" placeholder="Empty box">
-    <br>
-    <input type="checkbox" id="subscribe" name="subscribe" value="subscribe">
-    <label for="subscribe">Clicking this does nothing</label>
-    <br>
-    <input type="radio" id="option1" name="options" value="option1">
-    <label for="option1">Neither</label>
-    <br>
-    <input type="radio" id="option2" name="options" value="option2">
-    <label for="option2">Neither</label>
-    <br>
-    <input type="submit" value="Submit">
-  </form>
+  <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
 </body>
 </html>
