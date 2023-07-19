@@ -1,74 +1,88 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { Book } from '../models/book';
 
 export default function BookForm(props) {
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [isbn, setIsbn] = useState('');
 
-    //state variables
-    const [title,setTitle] = useState('');
-    const [author,setAuthor] = useState('');
-    const [isbn,setIsbn] = useState('');
-
-
-    // React hook, runs this when [] is updated
-    useEffect(() => {
-        if (props.bookToEdit) {
-            setTitle(props.bookToEdit.title);
-            setAuthor(props.bookToEdit.author);
-            setIsbn(props.bookToEdit.isbn);
-        }
-    }, [props.bookToEdit]);
-
-    function onBookFormSubmit(e) {
-        e.preventDefault();
-
-        if(!isValid()) { return; }
-        let book = new Book(title, author, isbn);
-        props.onBookCreated(book);
-        clearInputs();
+  // Call a React hook that runs a function anytime a given variable/object changes
+  useEffect(() => {
+    if (props.bookToEdit) {
+      setTitle(props.bookToEdit.title);
+      setAuthor(props.bookToEdit.author);
+      setIsbn(props.bookToEdit.isbn);
     }
-    //=== checks for value and type
-    function isValid() {
-        return title !== '' && author !== '' && isbn !== '';
+  }, [props.bookToEdit]);
+
+  function onBookFormSubmit(e) {
+    e.preventDefault();
+
+    if (!isValid()) {
+      return;
     }
 
-    function clearInputs() {
-        setTitle('');
-        setAuthor('');
-        setIsbn('');
-    }
+    let book = new Book(title, author, isbn);
+    props.onBookCreated(book);
 
-    return (
+    clearInputs();
+  }
+
+  function isValid() {
+    return title !== '' && (author !== '') & (isbn !== '');
+  }
+
+  function clearInputs() {
+    setTitle('');
+    setAuthor('');
+    setIsbn('');
+  }
+
+  return (
     <div>
-        <hi>Library Books:</hi>
-        <form id="form" onSubmit={onBookFormSubmit}>
-            <div className = 'mb-3'>
-                <label className='form-label'>Title</label>
-                <input 
-                id='title-input' 
-                type='text' 
-                className='form-control' 
-                placeholder="Enter book Title"></input>
-            </div>
-            <div className = 'mb-3'>
-                <label className='form-label'>Author</label>
-                <input 
-                id='author-input' 
-                type='text' 
-                className='form-control' 
-                placeholder="Enter book Author"></input>
-            </div>
-            <div className = 'mb-3'>
-                <label className='form-label'>ISBN</label>
-                <input 
-                id='isbn-input' 
-                type='text' 
-                className='form-control' 
-                placeholder="Enter book ISBN"></input>
-            </div>
+      <h1>Library Books:</h1>
 
-            <div className='d-grid mt-4'>
-                <button className='btn btn-outline-primary' type="submit">Add Book</button>
-            </div>
-        </form>
+      <form id="form" onSubmit={onBookFormSubmit}>
+        <div className="mb-3">
+          <label className="form-label">Title</label>
+          <input
+            id="title-input"
+            type="text"
+            className="form-control"
+            placeholder="Enter Book Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          ></input>
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Author</label>
+          <input
+            id="author-input"
+            type="text"
+            className="form-control"
+            placeholder="Enter Author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+          ></input>
+        </div>
+        <div className="mb-3">
+          <label className="form-label">ISBN</label>
+          <input
+            id="isbn-input"
+            type="text"
+            className="form-control"
+            placeholder="Enter ISBN"
+            value={isbn}
+            onChange={(e) => setIsbn(e.target.value)}
+          ></input>
+        </div>
+
+        <div className="d-grid mt-4">
+          <button className="btn btn-outline-primary" type="submit">
+            {props.bookToEdit ? 'Update Book' : 'Add Book'}
+          </button>
+        </div>
+      </form>
     </div>
-    );
+  );
 }

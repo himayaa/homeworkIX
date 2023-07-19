@@ -1,5 +1,6 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Book } from './models/book';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BookForm from './components/BookForm';
@@ -9,13 +10,20 @@ function App() {
   const [books, setBooks] = useState([]);
   const [bookToEdit, setBookToEdit] = useState(null);
 
+  useEffect(() => {
+    loadBooksFromLocalStorage();
+  }, []);
+
+  useEffect(() => {
+    saveBooksToLocalStorage();
+  }, [books]);
+
   function onBookCreated(book) {
-    //append book to books array
+    setBookToEdit(null);
     setBooks([...books, book]);
   }
 
-  function onBooksDelete(book) {
-    // Remove from array
+  function onBookDelete(book) {
     setBooks(books.filter((x) => x.isbn !== book.isbn));
   }
 
@@ -25,15 +33,29 @@ function App() {
   }
 
   function saveBooksToLocalStorage() {
-    const json = JSON.stringify(this.books);
+    const json = JSON.stringify(books);
     localStorage.setItem('books', json);
+  }
+
+  function loadBooksFromLocalStorage() {
+    const json = localStorage.getItem('books');
+    if (json) {
+      const bookArr = JSON.parse(json);
+      if (bookArr.length) {
+        setBooks(bookArr.map((x) => Book.fromJSON(x)));
+      }
+    }
   }
 
   return (
     <div className="m-5">
       <div className="card p-4">
-        <BookForm onBookCreated={onBookCreated} bookToEdit={bookToEdit}/>
-        <BookTable books={books} onBookDelete={onBookDelete} onBookEdit={onBookEdit}/>
+        <BookForm onBookCreated={onBookCreated} bookToEdit={bookToEdit} />
+        <BookTable
+          books={books}
+          onBookDelete={onBookDelete}
+          onBookEdit={onBookEdit}
+        />
       </div>
     </div>
   );
