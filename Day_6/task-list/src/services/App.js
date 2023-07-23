@@ -7,8 +7,10 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // If you export default then you don't need the {} brackets
 import { Task } from './models/Task';
-import TaskInput from './components/taskInput';
-import TaskTable from './components/taskTable';
+import TaskInput from '../components/taskInput';
+import TaskTable from '../components/taskTable';
+
+import TaskService from './services/task-service';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -30,14 +32,15 @@ function App() {
     saveTasksToLocalStorage();
   }, [tasks]);
 
-  function onTaskCreate(name) {
+  async function onTaskCreate(name) {
     // create the task
     // unique id
-    const id = new Date().getTime();
+    //const id = new Date().getTime();
     // new task instance
-    const task = new Task(id, name, false);
+    //const task = new Task(id, name, false);
 
-    // add thee task to the state tasks
+    const task = await TaskService.createTask(new Task(null, name, false));
+    // add the task to the state tasks
     setTasks([...tasks, task]);
   }
 
