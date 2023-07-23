@@ -1,97 +1,38 @@
 import './App.css';
 
 import { useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase/firebase';
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-// If you export default then you don't need the {} brackets
-import { Task } from './models/Task';
-import TaskInput from '../components/taskInput';
-import TaskTable from '../components/taskTable';
-
-import TaskService from './services/task-service';
+import Navbar from './components/common/Navbar';
+import TaskPage from './components/task/TaskPage';
+import LoginPage from './components/auth/LoginPage';
+import RegisterPage from './components/auth/RegisterPage';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [user, setUser] = useState(null);
 
-  // useEffect is a React Hook
   useEffect(() => {
-    if (!tasks.length) {
-      loadTasksFromLocalStorage();
-    }
-
-    // In the case of an empty array, the function only
-    // fires the first time the component initializes
-
-    // If we put a variable in the [], anytime that variable changes
-    // the function fires
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
   }, []);
 
-  useEffect(() => {
-    saveTasksToLocalStorage();
-  }, [tasks]);
-
-  async function onTaskCreate(name) {
-    // create the task
-    // unique id
-    //const id = new Date().getTime();
-    // new task instance
-    //const task = new Task(id, name, false);
-
-    const task = await TaskService.createTask(new Task(null, name, false));
-    // add the task to the state tasks
-    setTasks([...tasks, task]);
-  }
-
-  function onTaskRemove(taskId) {
-    // update the tasks state with the filtered tasks
-    setTasks(tasks.filter((task) => task.id !== taskId));
-  }
-
-  function onTaskCompleteToggle(taskId) {
-    // toggle the task complete state
-    const taskToToggle = tasks.find((task) => task.id === taskId);
-    taskToToggle.complete = !taskToToggle.complete;
-
-    // update the tasks state with the new task
-    setTasks(
-      tasks.map((task) => {
-        return task.id == taskId ? taskToToggle : task;
-      })
-    );
-  }
-
-  function saveTasksToLocalStorage() {
-    const json = JSON.stringify(tasks);
-    localStorage.setItem('tasks', json);
-  }
-
-  function loadTasksFromLocalStorage() {
-    const json = localStorage.getItem('tasks');
-    if (json) {
-      const taskArr = JSON.parse(json);
-      if (taskArr.length) {
-        setTasks(taskArr.map((x) => Task.fromJson(x)));
-      }
-    }
-  }
-
   return (
-    <div className="container mt-5">
-      <div className="card card-body text-center">
-        <h1>Task List</h1>
-        <hr />
-        <p>Our Task List</p>
-
-        <TaskInput onTaskCreate={onTaskCreate} />
-        <TaskTable
-          tasks={tasks}
-          onTaskRemove={onTaskRemove}
-          onTaskCompleteToggle={onTaskCompleteToggle}
-        />
-      </div>
-    </div>
+    <BrowserRouter>
+      <Navbar user={user} />
+      <Routes>
+        <Route path="/" element={<TaskPage />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/register" element={<RegisterPage />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
