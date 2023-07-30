@@ -36,6 +36,7 @@ const RecipeForm = () => {
         onChange={(e) => setIngredients(e.target.value)}
       />
       <button onClick={handleAddRecipe}>Add Recipe</button>
+      <div class="spinner"></div>
     </div>
   );
 };
